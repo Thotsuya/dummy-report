@@ -1,0 +1,32 @@
+type Order {
+    id: ID!
+    user_id: ID!
+    user: User! @belongsTo
+    total: Float!
+    amount_of_products: Int!
+    purchase_date: DateTime!
+    payment_method: String!
+    order_status: String!
+    discount_applied: Float!
+    shipping_cost: Float!
+    delivery_date: DateTime
+    product_category: String
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+extend type Query {
+    "Find a single order by an identifying attribute."
+    order(
+        "Search by primary key."
+        id: ID @eq @rules(apply: ["prohibits:user_id", "required_without:user_id"])
+
+        "Search by user_id."
+        user_id: ID @eq @rules(apply: ["prohibits:id", "required_without:id"])
+    ): Order @find
+
+    "List multiple orders."
+    orders(
+        limit: Int
+    ) : [Order!]! @paginate(defaultCount: 10) @orderBy(column: "id", direction: DESC)
+}

@@ -1,0 +1,26 @@
+type Report {
+    id: ID!
+    title: String!
+    slug: String!
+    description: String
+    from_date: String
+    to_date: String
+    charts: [Chart] @hasMany
+}
+
+type Chart {
+    id: ID!
+    report_id: ID!
+    report: Report @belongsTo
+    chart_name: String!
+    chart_type: String!
+    chart_labels: [String]!
+    chart_values: [Float]!
+}
+
+extend type Query {
+    reports: [Report] @all
+    report(slug: String! @eq): Report @find
+    charts: [Chart] @all
+    chart(id: ID!): Chart @find
+}

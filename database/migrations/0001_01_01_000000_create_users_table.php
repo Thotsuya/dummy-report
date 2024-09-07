@@ -17,6 +17,17 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->date('registered_at'); // Date of registration
+            $table->string('country');
+            $table->integer('age');
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->timestamp('last_login')->nullable(); // Last login time
+            $table->enum('subscription_status', ['standard', 'premium'])->default('standard'); // Subscription status
+            $table->string('referral_source')->nullable(); // Referral source
+            $table->enum('account_status', ['active', 'inactive', 'suspended'])->default('active'); // Account status
+            $table->string('occupation')->nullable();
+            $table->decimal('lifetime_value', 10, 2)->default(0); // Lifetime Value (LTV)
+            $table->string('preferred_language')->default('en'); // Preferred language
             $table->rememberToken();
             $table->timestamps();
         });
